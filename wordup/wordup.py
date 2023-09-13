@@ -1,6 +1,6 @@
 import random
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, Toplevel
 import requests
 
 def start_new_game():
@@ -11,6 +11,12 @@ def start_new_game():
         secret_word = get_random_word()
     attempts = 6
     result_label.config(text=f"Attempts left: {attempts}\nWord: {display_word(secret_word, guessed_letters)}")
+
+def show_credits():
+    credits_window = Toplevel(window)
+    credits_window.title("Credits")
+    credits_label = ttk.Label(credits_window, text="Composed by x5ee")
+    credits_label.pack(padx=20, pady=20)
 
 # initialize variables
 attempts = 6
@@ -109,6 +115,13 @@ submit_button.grid(row=1, column=1, padx=10)
 
 result_label = ttk.Label(window, text=f"Attempts left: {attempts}\nWord: {display_word(secret_word, guessed_letters)}")
 result_label.grid(row=2, column=0, columnspan=2, pady=(20, 0))
+
+# add the "Credits" button with adjusted padding
+credits_button = ttk.Button(window, text="Credits", command=show_credits)
+credits_button.grid(row=3, column=1, padx=10, pady=(0, 20))
+
+# adjust the font size for all ttk.Button widgets globally
+style.configure("TButton", font=("Arial", 12))
 
 # start the GUI event loop
 window.mainloop()
