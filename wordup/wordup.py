@@ -93,9 +93,15 @@ def display_word(secret_word, guessed_letters):
             displayed_word += "_"
     return displayed_word
 
+
 # create the GUI window
 window = tk.Tk()
 window.title("Wordup")
+window.geometry("1920x1080")
+
+# configure grid weights to center the widgets
+window.columnconfigure(0, weight=1)  # center column
+window.columnconfigure(1, weight=1)  # right empty column
 
 # create and configure style
 style = ttk.Style()
@@ -107,18 +113,23 @@ style.configure("TEntry", font=("Arial", 14))
 instructions_label = ttk.Label(window, text="Welcome to Wordup! Guess the 5-letter word.")
 instructions_label.grid(row=0, column=0, columnspan=2, pady=(10, 20))
 
-entry = ttk.Entry(window)
-entry.grid(row=1, column=0, padx=10)
+# entry box with hint text
+entry = ttk.Entry(window, show='', foreground='gray')  # use foreground to set the text color to gray
+entry.grid(row=1, column=0, columnspan=2, padx=10)  # center the entry box
+
+# add hint text to the entry box
+entry.insert(0, 'Enter word here..')
+entry.bind("<FocusIn>", lambda event: entry.delete(0, 'end'))  # remove hint text on focus
 
 submit_button = ttk.Button(window, text="Submit", command=check_guess)
-submit_button.grid(row=1, column=1, padx=10)
+submit_button.grid(row=2, column=0, columnspan=2, pady=(10, 0))  # center the submit button
 
 result_label = ttk.Label(window, text=f"Attempts left: {attempts}\nWord: {display_word(secret_word, guessed_letters)}")
-result_label.grid(row=2, column=0, columnspan=2, pady=(20, 0))
+result_label.grid(row=3, column=0, columnspan=2, pady=(20, 0))
 
 # add the "Credits" button with adjusted padding
 credits_button = ttk.Button(window, text="Credits", command=show_credits)
-credits_button.grid(row=3, column=1, padx=10, pady=(0, 20))
+credits_button.grid(row=4, column=1, padx=10, pady=(0, 20))
 
 # adjust the font size for all ttk.Button widgets globally
 style.configure("TButton", font=("Arial", 12))
