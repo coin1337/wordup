@@ -15,7 +15,7 @@ def start_new_game():
 def show_credits():
     credits_window = Toplevel(window)
     credits_window.title("Credits")
-    credits_label = ttk.Label(credits_window, text="Composed by x5ee")
+    credits_label = ttk.Label(credits_window, text="Composed by x5ee", font=("Arial", 14))
     credits_label.pack(padx=20, pady=20)
 
 # initialize variables
@@ -42,6 +42,11 @@ secret_word = get_random_word()
 
 while secret_word is None:
     secret_word = get_random_word()
+
+def on_entry_click(event):
+    if entry.get() == 'Enter word here':
+        entry.delete(0, "end")
+    entry.config(foreground="black")
 
 def check_guess():
     global attempts  # use global instead of nonlocal for a global variable
@@ -97,11 +102,7 @@ def display_word(secret_word, guessed_letters):
 # create the GUI window
 window = tk.Tk()
 window.title("Wordup")
-window.geometry("1920x1080")
-
-# configure grid weights to center the widgets
-window.columnconfigure(0, weight=1)  # center column
-window.columnconfigure(1, weight=1)  # right empty column
+window.geometry("800x600")
 
 # create and configure style
 style = ttk.Style()
@@ -111,25 +112,23 @@ style.configure("TEntry", font=("Arial", 14))
 
 # create and configure widgets
 instructions_label = ttk.Label(window, text="Welcome to Wordup! Guess the 5-letter word.")
-instructions_label.grid(row=0, column=0, columnspan=2, pady=(10, 20))
+instructions_label.pack(pady=(10, 20))
 
 # entry box with hint text
-entry = ttk.Entry(window, show='', foreground='gray')  # use foreground to set the text color to gray
-entry.grid(row=1, column=0, columnspan=2, padx=10)  # center the entry box
-
-# add hint text to the entry box
-entry.insert(0, 'Enter word here..')
-entry.bind("<FocusIn>", lambda event: entry.delete(0, 'end'))  # remove hint text on focus
+entry = ttk.Entry(window, show='', foreground='gray')
+entry.pack(pady=10)
+entry.insert(0, 'Enter word here')
+entry.bind("<FocusIn>", on_entry_click)
 
 submit_button = ttk.Button(window, text="Submit", command=check_guess)
-submit_button.grid(row=2, column=0, columnspan=2, pady=(10, 0))  # center the submit button
+submit_button.pack(pady=(10, 0))
 
 result_label = ttk.Label(window, text=f"Attempts left: {attempts}\nWord: {display_word(secret_word, guessed_letters)}")
-result_label.grid(row=3, column=0, columnspan=2, pady=(20, 0))
+result_label.pack(pady=(20, 0))
 
 # add the "Credits" button with adjusted padding
 credits_button = ttk.Button(window, text="Credits", command=show_credits)
-credits_button.grid(row=4, column=1, padx=10, pady=(0, 20))
+credits_button.pack(pady=(0, 20))
 
 # adjust the font size for all ttk.Button widgets globally
 style.configure("TButton", font=("Arial", 12))
