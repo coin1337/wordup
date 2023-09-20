@@ -44,7 +44,7 @@ while secret_word is None:
     secret_word = get_random_word()
 
 def on_entry_click(event):
-    if entry.get() == 'Enter word here':
+    if entry.get() == 'Enter word here..':
         entry.delete(0, "end")
     entry.config(foreground="black")
 
@@ -117,10 +117,10 @@ instructions_label.pack(pady=(10, 20))
 # entry box with hint text
 entry = ttk.Entry(window, show='', foreground='gray')
 entry.pack(pady=10)
-entry.insert(0, 'Enter word here')
+entry.insert(0, 'Enter word here..')
 entry.bind("<FocusIn>", on_entry_click)
 
-submit_button = ttk.Button(window, text="Submit", command=check_guess)
+submit_button = ttk.Button(window, text="Guess", command=check_guess)
 submit_button.pack(pady=(10, 0))
 
 result_label = ttk.Label(window, text=f"Attempts left: {attempts}\nWord: {display_word(secret_word, guessed_letters)}")
